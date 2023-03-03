@@ -1,19 +1,17 @@
-import React,{useRef, useEffect} from "react";
+import React,{useRef} from "react";
 import Button from "@mui/material/Button";
 import { TextField, Typography } from "@mui/material";
 import {Form , Card} from 'react-bootstrap';
 import { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import LoginPlanet from "../Images/LoginPlanet.png"
-import { UserAuth} from "../Firebase/AuthContext";
+import { UserAuth } from "../Firebase/AuthContext";
 import useAuthState from "../Firebase/hooks";
-import { auth} from "../Firebase/firebase";
+import { auth } from "../Firebase/firebase";
 import Login from '../Images/Login.png'
 import {GoogleButton } from 'react-google-button'
 import './contribute.css';
 import Logo from "../Images/Logo.png";
-import {signInWithEmailAndPassword} from "firebase/auth";
-
 
 
 
@@ -22,13 +20,10 @@ function LoginPage() {
   const [email,setEmail]=useState('');
   const [password,setPassword]=useState('');
   const [error,setError]=useState('');
-  const { createUser} = UserAuth();
+  const { createUser } = UserAuth();
   const {User,logOut} = UserAuth()
-  const {user, initializing} = useAuthState(auth);
+  const {user,initializing} = useAuthState(auth);
   const navigate = useNavigate()
-
-  const [adminEmail, setAdminEmail] = useState('');
-  const [adminPass, setAdminPass ] = useState('');
 
   const handleSubmit=async (e)=>{
     e.preventDefault();
@@ -42,39 +37,11 @@ function LoginPage() {
     }
   }
 
-  useEffect(() => {
-    if(user?.displayName){
-      navigate('/feed');
-    }
-  }, [user]);
-
-  // const {signInAdmin} = UserAuth();
-  const handleAdminSignIn = async (e) =>{
-    e.preventDefault();
-    try{
-      await signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in 
-        user = userCredential.user;
-        // ...
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-      });
-      navigate('/admin');
-     }catch(error){
-         console.log(error);
-     }
-    
-  }
-
-
   const {googleSignIn} = UserAuth();
   const handleGoogleSignIn = async () =>{
         try{
          await googleSignIn()
-        //  navigate("/feed")
+         navigate("/feed")
         }catch(error){
             console.log(error);
         }
@@ -82,7 +49,6 @@ function LoginPage() {
       if(initializing){
         return("loading...");
       }
-
 
   return (
     <div>
@@ -108,13 +74,13 @@ function LoginPage() {
         </div>
 
         <Typography variant="h6" sx={{marginTop:7,color:"white", textAlign:"center"}}>Login as Admin ?</Typography>  
-        <TextField class="credentials" id="Email" type="email" fullWidth placeholder="Enter Email" onChange={(e)=> {setAdminEmail(e.target.value); console.log(e.target.value);}}></TextField>
-        <TextField class="credentials" id="Password" type="password" fullWidth placeholder="Enter Password" onChange={(e)=> {setAdminPass(e.target.value); console.log(e.target.value);}}></TextField>
+        <TextField class="credentials" id="Email" type="email" fullWidth placeholder="Enter Email"></TextField>
+        <TextField class="credentials" id="Password" type="password" fullWidth placeholder="Enter Password"></TextField>
           <Button  variant="contained"
           align="center"
           color="secondary"
           sx={{ marginTop: "20px" ,width:"323px", backgroundColor:"#8152BD", marginLeft:"37px", height:"42px"}}
-          type="submit" onClick={handleAdminSignIn}> Sign In</Button>
+          type="submit"> Sign In</Button>
 
       
         </div>

@@ -84,15 +84,6 @@ font-size: 16px;
 /* font-weight: bold; */
 }
 
-.login-icon{
-  text-decoration: none;
-  color: white;
-  margin-top: -15px;
-}
-.login-icon:hover {
-  color: white;
-}
-
 /* .arrow {
   border: solid white;
   border-width: 0 3px 3px 0;
