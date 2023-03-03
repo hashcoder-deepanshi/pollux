@@ -1,13 +1,12 @@
 import Logo from "../Images/Logo.png";
 import Down_arrow from "../Images/down-arrow.png";
 import LoginIcon from "./login";
-import {auth } from "../Firebase/firebase";
 import { UserAuth } from "../Firebase/AuthContext";
 
 function Navbar () {
 
-    const {user, logOut} = UserAuth(auth);
-    
+    const {user, logOut} = UserAuth();
+
     const handleSignOut = async()=>{
         try{
           await logOut()
@@ -25,13 +24,10 @@ function Navbar () {
                     <li><a href="/">Home</a></li>
                     <li><a href="/feed">My Feed</a></li>
                     <li><a href="/searchpage">Search</a></li>
-                    {
-                        // (user.providerData[0].providerId === 'google.com')
-                        // ? <li><a href="/my-activity">Dashboard</a></li>
-                        // : <li><a href="/admin">Dashboard</a></li>
-                        <li><a href="/my-activity">Dashboard</a></li>
-                    }
-                    
+                    <li><a href="/my-activity">Dashboard</a></li>
+                    {/* <li><a href="feed">Feed</a></li>
+                    <li><a href="My-Activity">My Activity</a></li>
+                    <li><a href="SearchPage">Search</a></li> */}
                     
                     <li>
                     <div class="dropdown">
