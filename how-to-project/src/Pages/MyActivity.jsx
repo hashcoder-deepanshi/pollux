@@ -49,9 +49,39 @@ function a11yProps(index) {
 function MyActivity() {
   const {user}=useAuthState(auth);
   const[value,setValue] = useState(0);
+  const [searchInput, setSearchInput] = useState('');
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+
+  // const handleSearch = async () => {
+  //   const articleRef=collection(db,"Admin")
+ 
+  //     var q;
+  //     if(searchInput.length > 0){
+  //       q = q=query(articleRef,where('status',"==",true),where('category',"==","Blogs"), where("tags", "array-contains" , searchInput.toLowerCase()));
+  //     }
+  //     else {
+  //      q = query(articleRef,where('status',"==",true),where('category',"==","Blogs"));
+  //     }
+ 
+  //     console.log(q);
+  //     onSnapshot(q,(snapshot)=>{
+  //       const blog = snapshot.docs.map((doc)=>({
+  //         id:doc.id,
+  //         ...doc.data(),
+  //       }));
+  //       setBlogs(blog);
+  //       console.log(blog);
+  //    });
+  // };
+
+  // const handleKeyDown = (event) => {
+  //   if (event.key === 'Enter') {
+  //     handleSearch();
+  //   }
+  // };
+
   return (
     <>
       <Navbar/>
@@ -62,8 +92,12 @@ function MyActivity() {
           type="search"
           placeholder="Search"
           id="searchInput"
+          onChange={(e)=>{setSearchInput(e.target.value);}}
+          // onKeyDown = {handleKeyDown}
       />
-      <Button class="search-icon" ><i class="fa-solid fa-magnifying-glass"></i></Button>
+      <Button class="search-icon" 
+      // onClick={handleSearch}
+      ><i class="fa-solid fa-magnifying-glass"></i></Button>
 
       </div>
 
@@ -87,7 +121,7 @@ function MyActivity() {
             sx={{marginLeft:33 , color:"white" , paddingLeft:9 , marginTop:20 }}>
           <Tab sx={{marginRight:3 , fontSize:22}} label="my submissions" {...a11yProps(0)} />
           <Tab sx={{marginRight:3 , fontSize:22}} label="liked"{...a11yProps(1)} />
-          <Tab sx={{marginRight:3 , fontSize:22}} label="Bookmark" {...a11yProps(2)} />
+          {/* <Tab sx={{marginRight:3 , fontSize:22}} label="Bookmark" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -96,9 +130,9 @@ function MyActivity() {
       <TabPanel value={value} index={1}>
                     <Liked user={user}/>
       </TabPanel>
-      <TabPanel value={value} index={2}>
+      {/* <TabPanel value={value} index={2}>
                     <Bookmarked user={user}/>
-      </TabPanel>
+      </TabPanel> */}
     </Box>
 </div>
 :<Typography variant="h4"align="center" sx={{color:"white", margin:4,marginTop:17}}>LOG IN TO ACCESS THE PROFILE</Typography>}
