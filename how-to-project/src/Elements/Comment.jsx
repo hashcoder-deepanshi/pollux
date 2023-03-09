@@ -64,7 +64,7 @@ const handleDeleteComment=(comment)=>{
                         </div>
                         <div >
                             {user ===currentlyLoggedInUser.uid && (
-                                <i className='fa fa-times' 
+                                <i className='fa fa-trash' 
                                 onClick={()=>handleDeleteComment({commentId,user,comment,userName})} style={{cursor:"pointer"}}></i>
                             )}
                         </div>
@@ -81,7 +81,7 @@ const handleDeleteComment=(comment)=>{
                            onChange={(e)=>{setComment(e.target.value);}}
                            placeholder="Add a comment"
                            onKeyUp={(e)=>{handleChangeComment(e);}} 
-                           sx={{backgroundColor:"#c69af6"}}/>
+                           sx={{backgroundColor:"rgb(255,255,255,0.98)"}}/>
                         :null
                     }
             </div>

@@ -1,14 +1,22 @@
 import React, { useState } from "react";
 import Logo from "../Images/Logo.png";
-import Down_arrow from "../Images/down-arrow.png";
-import PopUp from "./PopUp.jsx";
-import LoginIcon from "./login";
+import { TextField } from "@mui/material";
 import Button from "@mui/material/Button";
 import {db,auth} from '../Firebase/firebase'
 import { UserAuth } from "../Firebase/AuthContext";
 import { useNavigate } from 'react-router-dom';
 import { collection ,addDoc} from "firebase/firestore";
 import TransitionModal from './Modal';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import axios from "axios";
+import { CardContent } from "@mui/material";
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import { CardActionArea } from '@mui/material';
 
 import { NavLink } from "react-router-dom";
 
@@ -19,6 +27,91 @@ function Navbar () {
     const {user, logOut} = UserAuth(auth);
     const [feedback, setFeedback] = useState(false);
 
+    /****for adding into database ****/
+    const [multiformValue,setMultiformValue]=useState({
+      Topic:"",
+      Title:"",
+      link:"",
+      imgURL:"",
+      category:"",
+      comments:[],
+     })
+
+     const {Topic,Title,link,imgURL,category,comments,description}= multiformValue;
+
+     const bloglist=collection(db,'Admin');
+
+     const handleSubmit=async (e)=>{ 
+      e.preventDefault();
+      if(Title===""){
+        alert("Fill all the fields");
+        return false;
+      }else{
+        
+          await addDoc(bloglist,{
+          Title,
+          link,
+          imgURL,
+          author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
+          category,
+          comments:[],
+          status:false,
+          tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
+
+      }).then(()=>{alert("success!!")}).catch(err=>{alert(err.message)});
+
+
+  
+  /**adding in users collection********/
+  const reportRef=collection(db,"users",user.email,"My submission");
+
+  await addDoc(reportRef,{
+    Title,
+    link,
+    imgURL,
+    author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
+    category,
+    comments:[],
+    status:false,
+    tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
+
+}).catch(err=>{alert(err.message)});
+  }
+      navigate("/searchpage")
+  };
+
+    /**for image */
+    const[image,setImage]=useState([])
+    const[photo,setPhoto]=useState("");
+
+    function handleImg(event){
+        setPhoto(event.target.value);
+        // setMultiformValue({...multiformValue,imgURL:(event.target.value)})
+    }
+    const getImage=()=>{
+        console.log(photo);
+        const url = "https://api.unsplash.com/search/photos?page=1&per_page=21&query="
+        +photo
+        +"&client_id=v86lrJGasQUoSxAr-QPu0VGuOUUjIE07njw-R1bMyl0"
+      axios.get(url)
+      .then((response)=>{
+        setImage(response.data.results)
+        console.log(response.data.results)
+      })
+    }
+    const handleImage=async(e)=>{
+      //const bloglist= collection(db,"Image")
+      //await addDoc(bloglist,{
+      //  img
+      //}).then(()=>{alert("success!!")}).catch(err=>{alert(err.message)});
+
+      //setImg(e.target.currentSrc)
+
+      // console.log(e);
+      //console.log(e.target.currentSrc);
+      setMultiformValue({...multiformValue,imgURL:(e.target.currentSrc)})
+      console.log("clicked")
+    }
 
     /********for adding Feedback ***********/
   const [Response,setResponse]=useState("");
@@ -72,7 +165,97 @@ function Navbar () {
                         <NavLink  to="/SearchPage" activeclassName="active-page">Explore</NavLink>
                     </li>
                     <li>
-                        <NavLink to="/Contribute" activeclassName="active-page">Publish</NavLink>
+                    <TransitionModal 
+                      title="CONTRIBUTE" 
+                      button={<>CONTRIBUTE</>}
+                      content="Found an interesting article? Do you want to share with the community?">  
+                      <TextField 
+                        class="cred" 
+                        id="feedback" 
+                        type="text" 
+                        fullWidth 
+                        multiline={4}
+                        placeholder="Enter Title" 
+                        onChange={(e)=>{setMultiformValue({...multiformValue,Title:(e.target.value)})
+                      }} 
+                      required/>
+                      <TextField 
+                        class="cred" 
+                        id="feedback" 
+                        type="text" 
+                        fullWidth 
+                        multiline={4}
+                        placeholder="Enter URL" 
+                      />      
+                      <FormControl  sx={{margin:2,color:"white"}}>
+                        <FormLabel id="demo-row-radio-buttons-group-label" sx={{color:"white"}}>Choose Category</FormLabel>
+                        <RadioGroup
+                          row
+                          aria-labelledby="demo-row-radio-buttons-group-label"
+                          name="row-radio-buttons-group"
+                          
+                        >
+                        <FormControlLabel control={<Radio />} label="Research Paper" value="ResearchPaper"/>
+                        <FormControlLabel control={<Radio />} label="Blogs" value="Blogs"/>
+                        <FormControlLabel control={<Radio />} label="Technical Stuff" value="TechnicalStuff"/>
+                        </RadioGroup>
+                      </FormControl>   
+                    <TransitionModal
+                      title="CHOOSE IMAGE"
+                      content="Choose an image to display that best suits your blog. "
+                      button={<Button  variant="contained" align="center" color="secondary" sx={{ 
+                        marginTop: "20px" ,
+                        width:"23em", 
+                        backgroundColor:"#8152BD", 
+                        marginLeft:"8em",  
+                        height:"42px", 
+                        fontFamily:"Montserrat", 
+                        "&:hover": {backgroundColor: "#8152BD" } }}
+                      > Next</Button>}>
+                      <div> 
+            <input 
+            onChange={handleImg} 
+            class="search-image"
+            type="search"
+            placeholder="Search for photos"
+            id="searchInput"
+            />
+        </div>
+        <Button class="search-icon image" onClick={getImage}><i class="fa-solid fa-magnifying-glass"></i></Button>
+          <div className="img-container">
+            <div className="row">
+                {
+                    image.map((prop)=>{
+                        return(
+                            <Card sx={{ maxWidth: 145 ,margin:1}}>
+                            <CardActionArea>
+                              <CardMedia
+                                component="img"
+                                height="145"
+                                src={prop.urls.small}
+                                alt="image"
+                                onClick={handleImage}
+                              />
+                            </CardActionArea>
+                          </Card>
+                        )
+                    })
+                }
+            </div>
+            </div>
+            <Button  variant="contained" align="center" color="secondary" sx={{ 
+                        marginTop: "20px" ,
+                        width:"23em", 
+                        backgroundColor:"#8152BD", 
+                        marginLeft:"8em",  
+                        height:"42px", 
+                        fontFamily:"Montserrat", 
+                        "&:hover": {backgroundColor: "#8152BD" } }}
+                        onClick={handleSubmit}
+            > Submit</Button>      
+</TransitionModal>
+          </TransitionModal>
+                        
                     </li>
                     
                     {
@@ -91,21 +274,36 @@ function Navbar () {
                         <li onClick={()=> {navigate('/my-activity')}}>Dashboard </li>
                         <li onClick={() => setFeedback(true)}>
                         <TransitionModal 
-          title="Feedback" 
+          title="FEEDBACK" 
           button={<span class="feedback-btn">Feedback </span>}
           content="Your Feedback will help us to improve our website and your own experience. Kindly spare a minute to provide your valuable feeback. Thankyou.">             
-            <input type="text" onChange={(e)=>{setResponse(e.target.value)}}></input>
+                    <TextField 
+                    class="cred" 
+                    id="feedback" 
+                    type="text" 
+                    fullWidth 
+                    placeholder="Enter Feedback" 
+                    onChange={(e)=>{setResponse(e.target.value)}}
+                    />                    
+
             <Button  variant="contained"
           align="center"
           color="secondary"
-          sx={{ marginTop: "20px" ,width:"23em", backgroundColor:"#8152BD", marginLeft:"8em", height:"42px", fontFamily:"Montserrat", "&:hover": {backgroundColor: "#8152BD" } }}
+          sx={{ 
+            marginTop: "20px" ,
+            width:"23em", 
+            backgroundColor:"#8152BD", 
+            marginLeft:"8em", 
+            height:"42px", 
+            fontFamily:"Montserrat", 
+            "&:hover": {backgroundColor: "#8152BD" } }}
           onClick={handleFeedback}
           > Submit</Button>
           </TransitionModal>
             </li>
 
                         {
-                    user? <li onClick={handleSignOut}>Logout </li> 
+                        user? <li onClick={handleSignOut}>Logout </li> 
                         : <li onClick={()=> {navigate('/loginpage')}}>Login </li>
                         }
 

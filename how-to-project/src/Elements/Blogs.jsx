@@ -242,6 +242,7 @@ export default function BlogCard() {
             title="Share"
             button={<i class='fas fa-2x fa-share'></i>}
             content="Inspire others to explore tech, share the content."
+            
             >
               <FacebookShareButton
               url={link}>
