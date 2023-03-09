@@ -84,18 +84,14 @@ export default function BlogCard() {
 
     slice1.map(({id,Title,Topic,imgURL,author})=><div class="ApproveCard" key={id}>
 
-    <Card class="cards"
-      // sx={{
-      //   maxWidth: 345,
-      //   backgroundColor: "rgb(70, 43, 136, 0.4)",
-      //   color: "white",
-      // }}
+    <Card className="cards"
+      sx = {{ background: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url(${imgURL}) no-repeat center`}}
     >
-      <CardMedia component="img" height="140" image={`${imgURL}`} alt="media" />
+      {/* <CardMedia component="img" height="140" image={`${imgURL}`} alt="media" /> */}
       
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        <Link to={`/article/${id}`}>{Title}</Link>
+        <Link to={`/article/${id}`} class="blogCard-title">{Title}</Link>
         </Typography>
         <Typography variant="body2" color="white">
           Author: {author.name}
@@ -134,18 +130,14 @@ export default function BlogCard() {
 
     slice.map(({id,Title,Topic,imgURL,author})=><div class="ApproveCard" key={id}>
 
-    <Card class="cards"
-      // sx={{
-      //   maxWidth: 345,
-      //   backgroundColor: "rgb(70, 43, 136, 0.4)",
-      //   color: "white",
-      // }}
+    <Card className="cards"
+      sx = {{ background: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url(${imgURL}) no-repeat center`}}
     >
-      <CardMedia component="img" height="140" image={`${imgURL}`} alt="media" />
+      {/* <CardMedia component="img" height="140" image={`${imgURL}`} alt="media" /> */}
       
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        <Link to={`/article/${id}`}>{Title}</Link>
+        <Link to={`/article/${id}`} class="blogCard-title">{Title}</Link>
         </Typography>
         <Typography variant="body2" color="white">
           Author: {author.name}

@@ -151,16 +151,13 @@ function Navbar () {
     return ( 
         <div class="bar">
             <nav>
-                <img class="Logo" src={Logo} alt="Logo" />
+                <img class="Logo" src={Logo} alt="Logo" onClick={()=>{navigate('/')}}/>
                 <input type="checkbox" id="check"/>
                     <label for="check" class="checkbtn">
                         <i class="fas fa-bars"></i>
                     </label>
                 
                 <ul class="navbar-options">
-                    <li>
-                        <NavLink exact to="/" activeclassName="active-page">Home</NavLink>
-                    </li>
                     <li>
                         <NavLink  to="/SearchPage" activeclassName="active-page">Explore</NavLink>
                     </li>

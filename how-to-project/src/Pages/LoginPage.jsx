@@ -46,7 +46,11 @@ function LoginPage() {
 
   useEffect(() => {
     if(user?.displayName){
-      navigate('/searchpage');
+      console.log(user.providerData[0].providerId)
+      if(user.providerData[0].providerId === 'google.com')
+        navigate('/searchpage');
+      else
+        navigate('/admin');
     }
   }, [user]);
 
