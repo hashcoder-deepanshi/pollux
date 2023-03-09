@@ -184,6 +184,7 @@ export default function BlogCard({articles, setArticles}) {
             title="Share"
             button={<i class='fas fa-2x fa-share blogAction-icon'></i>}
             content="Inspire others to explore tech, share the content."
+            
             >
               <FacebookShareButton
               url={link}>

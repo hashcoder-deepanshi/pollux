@@ -184,6 +184,7 @@ font-size: 16px;
 }
 
 .dropdown-content {
+
   display: none;
   position: absolute;
   background-color: #f8f8f8;
@@ -490,7 +491,7 @@ font-family: 'Ubuntu', sans-serif;
   justify-content: flex-start;
 }
 .search-bar{
- position: relative; 
+position: relative; 
 display: flex;
 flex-direction: row;
 align-items: center;
@@ -506,9 +507,6 @@ padding:3;
 background: rgba(233, 231, 231, 0.29);
 border-radius: 5px;
 }
-.searchpage{
-
-}
 
 .search-bar:hover{
   box-shadow: 1px 1px 20px white;
@@ -522,7 +520,21 @@ border-radius: 5px;
     border: none;
     color: white;
 }
+.search-image{
+ width:520px;
+ height: 45px;
 
+ left:20px;
+ top:20px;
+
+ background: rgba(233, 231, 231, 0.29);
+ border-radius: 5px;
+
+}
+.image{
+  left:500px;
+  top:0px
+}
 .search-icon:hover{
   box-shadow: 10px 5px 40px none;
 }
@@ -679,9 +691,18 @@ color: #FFFFFF;
   /* transform: rotate(85deg); */
 }
 
-
+.cred{
+  background-color: white;
+  color: #4F555A !important;
+  font-family: 'Montserrat';
+  border-radius: 5px;
+  margin: 10px;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 /******************* POPUPS ********************/
-.popup{
+/*.popup{
 
   position: fixed;
   z-index: 1;
@@ -726,7 +747,7 @@ color: #FFFFFF;
   background-color: transparent;
   display: block;
   margin-bottom: 10px;
-}
+}*/
 
 /*********************MY ACTIVITY ********************/
 /* .myactivitybox{
@@ -925,7 +946,7 @@ height: 182px;
   }
 
 .credentials{
-  background-color: white;
+    background-color: white;
     color: #4F555A !important;
     border-radius: 5px;
     margin: 10px;
@@ -1025,8 +1046,13 @@ height: 182px;
 .Admin-section{
   margin:30px 90px
 }
-.image-container{
+/*.image-container{
   position:relative;
   left:150px;
   top:100px;
+}*/
+.img-container{
+  position:relative;
+  left:25px;
+  top:5px
 }
