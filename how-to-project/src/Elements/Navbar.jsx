@@ -195,16 +195,17 @@ function Navbar () {
                         placeholder="Enter URL"
                         onChange={(e)=>{setLink(e.target.value)}} 
                       />  
-                      <div className="cred">
-                        <ul>
+                      <div className="tag-container">
+                        
                           {Tags.map((Tag,index)=>(
                             <div key={index} className="tags" >
                               <span>{Tag}</span>
                               <i class="fa-solid fa-circle-xmark" onClick={()=> removeTags(index)}></i>
                             </div>
                           ))}
-                        </ul>
-                        <input 
+                        
+                        <TextField 
+                        className="cred"
                         id="tags" 
                         type="text" 
                         placeholder="Enter Tags"

@@ -1060,5 +1060,22 @@ height: 182px;
 .tag-container{
   min-width: 60%;
   display: flex;
-  flex-wrap:wrap
+  flex-wrap:wrap;
+  min-height:45px;
+  padding:2px;
+}
+.tag-container input{
+  border: none;
+  flex:1;
+  outline: none;
+  padding: 5;
+}
+.tags{
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  border:1px solid gray;
+  border-radius: 5px;
+  height:25px;
+  margin:2px 5px 2px 0px;
 }
