@@ -177,7 +177,7 @@ function Navbar () {
                     <li>
                     <TransitionModal 
                       title="CONTRIBUTE" 
-                      button={<>CONTRIBUTE</>}
+                      button={<span class="contribute-btn">CONTRIBUTE</span>}
                       content="Found an interesting article? Do you want to share with the community?">  
                       <TextField 
                         class="cred" 
@@ -204,7 +204,7 @@ function Navbar () {
                             </div>
                           ))}
                         
-                        <TextField 
+                        <input
                         className="cred"
                         id="tags" 
                         type="text" 
