@@ -129,7 +129,7 @@ export default function BlogCard({articles, setArticles}) {
         <p style={{margin: 20, fontSize: 22}}>No articles found</p>
     ):(
 
-    articles.map(({id,Title,Topic,likes,imgURL,author,link})=><div class="ApproveCard" key={id}>
+    articles.map(({id,Title,likes,imgURL,link})=><div class="ApproveCard" key={id}>
 
 <Card className={"cards"}
       sx = {{ background: `linear-gradient(rgba(0, 0, 0, 0.60), rgba(0, 0, 0, 0.60)), url(${imgURL}) no-repeat center`}}
@@ -138,14 +138,9 @@ export default function BlogCard({articles, setArticles}) {
       
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        <Link class="blogCard-title" to={`/article/${id}`}>{Title}</Link>
+        <Link class="blogCard-title" to={link}>{Title}</Link>
         </Typography>
-        <Typography variant="body2" color="white">
-          Author: {author.name}
-        </Typography>
-        <Typography variant="body2" color="white">
-          Field: {Topic}
-        </Typography>
+
         
       </CardContent>
       

@@ -27,35 +27,45 @@ function Navbar () {
     const {user, logOut} = UserAuth(auth);
     const [feedback, setFeedback] = useState(false);
 
-    /****for adding into database ****/
-    const [multiformValue,setMultiformValue]=useState({
-      Topic:"",
-      Title:"",
-      link:"",
-      imgURL:"",
-      category:"",
-      comments:[],
-     })
+    /***adding tags *****/
+    const addTags = event =>{
+      if(event.key === "Enter" && event.target.value !== ""){
+        setTags([...Tags,event.target.value]);
+        event.target.value = "";
+        console.log(Tags);
+      }
+    }
+    const removeTags = indexToremove => {
+      setTags(Tags.filter((_,index)=>index !== indexToremove))
+    }
 
-     const {Topic,Title,link,imgURL,category,comments,description}= multiformValue;
+    /****for adding into database ****/
+    const [Title,setTitle]=useState("")
+    const [link,setLink]=useState("")
+    const [imgURL,setImgURL]=useState("");
+    const [category,setCat]=useState("");
+    const [Topic,setTopic]=useState("")
+    const [Tags,setTags]=useState([])
 
      const bloglist=collection(db,'Admin');
 
      const handleSubmit=async (e)=>{ 
       e.preventDefault();
-      if(Title===""){
+      if(Title===""||link===""){
         alert("Fill all the fields");
         return false;
       }else{
         
           await addDoc(bloglist,{
           Title,
+          Topic,
           link,
           imgURL,
           author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
           category,
           comments:[],
           status:false,
+          Tags:[],
           tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
 
       }).then(()=>{alert("success!!")}).catch(err=>{alert(err.message)});
@@ -67,12 +77,14 @@ function Navbar () {
 
   await addDoc(reportRef,{
     Title,
+    Topic,
     link,
     imgURL,
     author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
     category,
     comments:[],
     status:false,
+    Tags,
     tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
 
 }).catch(err=>{alert(err.message)});
@@ -101,6 +113,7 @@ function Navbar () {
     }
     const handleImage=async(e)=>{
       //const bloglist= collection(db,"Image")
+
       //await addDoc(bloglist,{
       //  img
       //}).then(()=>{alert("success!!")}).catch(err=>{alert(err.message)});
@@ -109,7 +122,7 @@ function Navbar () {
 
       // console.log(e);
       //console.log(e.target.currentSrc);
-      setMultiformValue({...multiformValue,imgURL:(e.target.currentSrc)})
+      setImgURL(e.target.currentSrc)
       console.log("clicked")
     }
 
@@ -168,22 +181,37 @@ function Navbar () {
                       content="Found an interesting article? Do you want to share with the community?">  
                       <TextField 
                         class="cred" 
-                        id="feedback" 
+                        id="Title" 
                         type="text" 
                         fullWidth 
-                        multiline={4}
                         placeholder="Enter Title" 
-                        onChange={(e)=>{setMultiformValue({...multiformValue,Title:(e.target.value)})
-                      }} 
+                        onChange={(e)=>{setTitle(e.target.value)}}
                       required/>
                       <TextField 
                         class="cred" 
-                        id="feedback" 
+                        id="link" 
                         type="text" 
                         fullWidth 
-                        multiline={4}
-                        placeholder="Enter URL" 
-                      />      
+                        placeholder="Enter URL"
+                        onChange={(e)=>{setLink(e.target.value)}} 
+                      />  
+                      <div className="cred">
+                        <ul>
+                          {Tags.map((Tag,index)=>(
+                            <div key={index} className="tags" >
+                              <span>{Tag}</span>
+                              <i class="fa-solid fa-circle-xmark" onClick={()=> removeTags(index)}></i>
+                            </div>
+                          ))}
+                        </ul>
+                        <input 
+                        id="tags" 
+                        type="text" 
+                        placeholder="Enter Tags"
+                        onKeyUp={addTags}
+                      /> 
+                      </div>
+                           
                       <FormControl  sx={{margin:2,color:"white"}}>
                         <FormLabel id="demo-row-radio-buttons-group-label" sx={{color:"white"}}>Choose Category</FormLabel>
                         <RadioGroup
@@ -192,9 +220,9 @@ function Navbar () {
                           name="row-radio-buttons-group"
                           
                         >
-                        <FormControlLabel control={<Radio />} label="Research Paper" value="ResearchPaper"/>
-                        <FormControlLabel control={<Radio />} label="Blogs" value="Blogs"/>
-                        <FormControlLabel control={<Radio />} label="Technical Stuff" value="TechnicalStuff"/>
+                        <FormControlLabel control={<Radio />} label="Research Paper" value="ResearchPaper"  onChange={(e)=>{setCat("Research paper")}}/>
+                        <FormControlLabel control={<Radio />} label="Blogs" value="Blogs"  onChange={(e)=>{setCat("Blogs")}}/>
+                        <FormControlLabel control={<Radio />} label="Interviews" value="TechnicalStuff"  onChange={(e)=>{setCat("Technical Stuff")}}/>
                         </RadioGroup>
                       </FormControl>   
                     <TransitionModal
@@ -217,8 +245,8 @@ function Navbar () {
             placeholder="Search for photos"
             id="searchInput"
             />
+            <Button class="search-icon image" onClick={getImage}><i class="fa-solid fa-magnifying-glass"></i></Button>
         </div>
-        <Button class="search-icon image" onClick={getImage}><i class="fa-solid fa-magnifying-glass"></i></Button>
           <div className="img-container">
             <div className="row">
                 {
@@ -249,7 +277,7 @@ function Navbar () {
                         fontFamily:"Montserrat", 
                         "&:hover": {backgroundColor: "#8152BD" } }}
                         onClick={handleSubmit}
-            > Submit</Button>      
+                      > Submit</Button>      
 </TransitionModal>
           </TransitionModal>
                         

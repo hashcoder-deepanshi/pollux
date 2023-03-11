@@ -1056,3 +1056,9 @@ height: 182px;
   left:25px;
   top:5px
 }
+/******Tags********/
+.tag-container{
+  min-width: 60%;
+  display: flex;
+  flex-wrap:wrap
+}

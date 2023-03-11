@@ -148,12 +148,6 @@ export default function BlogCard({articles, setArticles}) {
         <Typography gutterBottom variant="h5" component="div" color={"white"}>
         <Link class="blogCard-title" to={link}>{Title}</Link>
         </Typography>
-        <Typography variant="body2" color="white">
-          Author: {author.name}
-        </Typography>
-        <Typography variant="body2" color="white">
-          Field: {Topic}
-        </Typography>
         
       </CardContent>
       
@@ -184,7 +178,6 @@ export default function BlogCard({articles, setArticles}) {
             title="Share"
             button={<i class='fas fa-2x fa-share blogAction-icon'></i>}
             content="Inspire others to explore tech, share the content."
-            
             >
               <FacebookShareButton
               url={link}>

@@ -134,15 +134,8 @@ export default function BlogCard({articles, setArticles}) {
       
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-        <Link class="blogCard-title" to={`/article/${id}`}>{Title}</Link>
-        </Typography>
-        <Typography variant="body2" color="white">
-          Author: {author.name}
-        </Typography>
-        <Typography variant="body2" color="white">
-          Field: {Topic}
-        </Typography>
-        
+        <Link class="blogCard-title" to={link}>{Title}</Link>
+        </Typography>       
       </CardContent>
       
       <CardActions>
