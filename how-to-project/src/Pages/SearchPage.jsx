@@ -71,7 +71,7 @@ function SearchPage() {
 
      var q;
      if(searchInput.length > 0){
-       q = q=query(articleRef,where('status',"==",true),where('category',"==","Blogs"), where("tags", "array-contains" , searchInput.toLowerCase()));
+       q = q=query(articleRef,where('status',"==",true),where('category',"==","Blogs"), where("search", "array-contains" , searchInput.toLowerCase()));
      }
      else {
       q = query(articleRef,where('status',"==",true),where('category',"==","Blogs"));
@@ -93,7 +93,7 @@ function SearchPage() {
 
     var q;
     if(searchInput.length > 0){
-      q = q=query(articleRef,where('status',"==",true),where('category',"==","Research Paper"), where("tags", "array-contains" , searchInput.toLowerCase()));
+      q = q=query(articleRef,where('status',"==",true),where('category',"==","Research Paper"), where("search", "array-contains" , searchInput.toLowerCase()));
     }
     else {
      q = query(articleRef,where('status',"==",true),where('category',"==","Research Paper"));
@@ -115,7 +115,7 @@ const searchPlacementStories = async () => {
 
     var q;
     if(searchInput.length > 0){
-      q = q=query(articleRef,where('status',"==",true),where('category',"==","Technical Stuff"), where("tags", "array-contains" , searchInput.toLowerCase()));
+      q = q=query(articleRef,where('status',"==",true),where('category',"==","Technical Stuff"), where("search", "array-contains" , searchInput.toLowerCase()));
     }
     else {
      q = query(articleRef,where('status',"==",true),where('category',"==","Technical Stuff"));

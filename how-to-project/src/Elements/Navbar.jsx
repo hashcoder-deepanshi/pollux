@@ -30,7 +30,7 @@ function Navbar () {
     /***adding tags *****/
     const addTags = event =>{
       if(event.key === "Enter" && event.target.value !== ""){
-        setTags([...Tags,event.target.value]);
+        setTags([...Tags,event.target.value.toLocaleLowerCase()]);
         event.target.value = "";
         console.log(Tags);
       }
@@ -44,29 +44,29 @@ function Navbar () {
     const [link,setLink]=useState("")
     const [imgURL,setImgURL]=useState("");
     const [category,setCat]=useState("");
-    const [Topic,setTopic]=useState("")
+    // const [Topic,setTopic]=useState("")
     const [Tags,setTags]=useState([])
 
      const bloglist=collection(db,'Admin');
 
      const handleSubmit=async (e)=>{ 
       e.preventDefault();
-      if(Title===""||link===""){
+      if(Title===""||link==="" || Tags.length===0 || category===""){
         alert("Fill all the fields");
         return false;
       }else{
         
           await addDoc(bloglist,{
           Title,
-          Topic,
+          // Topic,
           link,
           imgURL,
           author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
           category,
           comments:[],
           status:false,
-          Tags:[],
-          tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
+          Tags,
+          search: [Title.toLocaleLowerCase(), ...Tags],
 
       }).then(()=>{alert("success!!")}).catch(err=>{alert(err.message)});
 
@@ -77,7 +77,7 @@ function Navbar () {
 
   await addDoc(reportRef,{
     Title,
-    Topic,
+    // Topic,
     link,
     imgURL,
     author:{name:auth.currentUser.displayName,id:auth.currentUser.uid},
@@ -85,7 +85,7 @@ function Navbar () {
     comments:[],
     status:false,
     Tags,
-    tags: [Title.toLocaleLowerCase(), Topic.toLocaleLowerCase()],
+    search: [Title.toLocaleLowerCase(), ...Tags],
 
 }).catch(err=>{alert(err.message)});
   }
